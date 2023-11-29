@@ -9,8 +9,7 @@
     "build": "tsc && vite build",
     "tsc": "tsc",
     "format": "pnpm exec prettier . --write",
-    "lint": "pnpm exec eslint . --fix",
-    "prepare": "husky install"
+    "lint": "pnpm exec eslint . --fix"
   },
   "dependencies": {
     "@generouted/react-router": "^1.16.1",
