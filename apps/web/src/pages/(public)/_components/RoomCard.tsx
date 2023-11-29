@@ -1,5 +1,5 @@
+import { Room } from '@/apis/rooms'
 import Carousel from '@/components/ui/carousel'
-import { Room } from '@/utils/type'
 
 interface RoomProps {
   room: Room

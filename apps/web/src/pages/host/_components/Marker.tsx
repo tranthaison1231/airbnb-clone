@@ -1,7 +1,7 @@
+import { Room } from '@/apis/rooms'
 import Carousel from '@/components/ui/carousel'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/cn'
-import { Room } from '@/utils/type'
 import { X } from 'lucide-react'
 import { useState } from 'react'
 
