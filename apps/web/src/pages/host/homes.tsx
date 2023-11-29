@@ -1,8 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import GoogleMapReact from 'google-map-react'
 import AirbnbIt from './_components/AirbnbIt'
-import Marker from './_components/Marker'
-import { ROOMS } from '@/utils/data'
+// import Marker from './_components/Marker'
 
 export default function Components() {
   return (
@@ -94,9 +93,9 @@ export default function Components() {
               ]
             }}
           >
-            {ROOMS.map(room => (
+            {/* {ROOMS.map(room => (
               <Marker key={room.id} lat={16.0831491} lng={108.2431217} room={room} />
-            ))}
+            ))} */}
           </GoogleMapReact>
         </div>
       </div>

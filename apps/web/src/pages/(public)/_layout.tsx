@@ -6,9 +6,9 @@ export default function Component() {
 
   return (
     <div>
-      <Header className="mx-auto max-w-7xl" hasSearch />
+      <Header className="px-6 sm:px-10 2xl:px-20" hasSearch />
       <hr />
-      <div className="mx-auto max-w-7xl py-5">
+      <div className="px-6 py-5 sm:px-10 2xl:px-20">
         <Outlet />
       </div>
     </div>
