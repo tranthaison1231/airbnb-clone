@@ -1,4 +1,4 @@
-class CategoriesService {
+export class CategoriesService {
   static getAll() {
     return [
       {

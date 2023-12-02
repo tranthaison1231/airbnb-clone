@@ -1,4 +1,4 @@
-class RoomsService {
+export class RoomsService {
   static getBy(categoryId: string) {
     if (categoryId === "1") {
       return [

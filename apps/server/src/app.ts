@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { CategoriesService } from "./modules/categories.service";
+import { RoomsService } from "./modules/rooms.service";
 
 const app = new Hono().basePath("/api");
 
