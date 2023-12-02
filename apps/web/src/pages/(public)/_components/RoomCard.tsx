@@ -10,9 +10,9 @@ export default function RoomCard({ room }: RoomProps) {
     <div className="group cursor-pointer space-y-1">
       <Carousel images={room.images} className="rounded-xl" imgClassName="aspect-square" />
       <p>{room.name}</p>
-      <p>{room.price}</p>
-      <p>{room.date}</p>
       <p>{room.distance}</p>
+      <p>{room.date}</p>
+      <p className="underline"><span className="font-bold">${room.price} </span>night</p>
     </div>
   )
 }
