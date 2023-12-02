@@ -2,16 +2,20 @@ import { Category, fetchCategories } from '@/apis/categories'
 import { Room, fetchRooms } from '@/apis/rooms'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import CategoryList from './_components/CategoryList'
 import FilterModal from './_components/FilterModal'
 import RoomCard from './_components/RoomCard'
 
 export default function Component() {
+  const [searchParams] = useSearchParams()
+  
   const [isLoading, setLoading] = useState(true)
   const [categories, setCategories] = useState <Category[]>([])
   const [rooms, setRooms] = useState<Room[]>([])
   const categoryListRef = useRef<HTMLDivElement>(null)
+
+  const categoryTag = searchParams.get('category_tag') ?? categories[0]?.id
 
   const navigate = useNavigate()
 
@@ -49,10 +53,10 @@ export default function Component() {
   }, [])
 
   useEffect(() => {
-    const getCategories = async () => {
+    const getRooms = async (categoryId: string) => {
       setLoading(true)
       try {
-        const rooms = await fetchRooms()
+        const rooms = await fetchRooms(categoryId)
         setRooms(rooms)
       } catch (error) {
         console.error(error)
@@ -60,8 +64,8 @@ export default function Component() {
         setLoading(false)
       }
     }
-    getCategories()
-  }, [])
+    categoryTag && getRooms(categoryTag)
+  }, [categoryTag])
 
 
   return (
