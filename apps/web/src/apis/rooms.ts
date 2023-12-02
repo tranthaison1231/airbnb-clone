@@ -7,7 +7,7 @@ export interface Room {
   images: string[]
 }
 
-export const fetchRooms = async (categoryId: string) => {
+export const fetchRooms = async (categoryId: string): Promise<Room[]> => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/categories/${categoryId}/rooms`)
   const rooms = await res.json()
   return rooms

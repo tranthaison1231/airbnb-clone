@@ -17,7 +17,7 @@ export default function FilterModal() {
           Filters
         </button>
       </DialogTrigger>
-      <DialogContent className="relative block h-[90vh] p-0 sm:max-w-[888px]">
+      <DialogContent className="block h-[90vh] p-0 sm:max-w-[888px]">
         <h1 className="my-6 text-center font-bold"> Filters </h1>
         <hr />
         <div className="h-[calc(100vh-16rem)] overflow-y-auto">

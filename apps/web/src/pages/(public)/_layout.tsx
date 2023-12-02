@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { Outlet } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ export default function Component() {
       <div className="px-6 py-5 sm:px-10 2xl:px-20">
         <Outlet />
       </div>
+      <Footer />
     </div>
   )
 }

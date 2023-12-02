@@ -8,7 +8,7 @@ export default function UserProfilePopover() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="flex items-center gap-3 rounded-full px-4 py-1 shadow-xl">
+        <button className="flex items-center gap-3 rounded-full px-4 py-1 border">
           <AlignJustify className="w-6" />
           <div className="flex h-8 w-8 items-end justify-center rounded-full bg-gray-400 text-white">
             <User2 />

@@ -1,23 +1,19 @@
-import { Category, fetchCategories } from '@/apis/categories'
-import { Room, fetchRooms } from '@/apis/rooms'
+import { fetchCategories } from '@/apis/categories'
+import { fetchRooms } from '@/apis/rooms'
+import {
+  useQuery
+} from '@tanstack/react-query'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import CategoryList from './_components/CategoryList'
 import FilterModal from './_components/FilterModal'
-import RoomCard from './_components/RoomCard'
+import RoomList from './_components/RoomList'
+import { Button } from '@/components/ui/button'
 
 export default function Component() {
   const [searchParams] = useSearchParams()
-  
-  const [isLoading, setLoading] = useState(true)
-  const [categories, setCategories] = useState <Category[]>([])
-  const [rooms, setRooms] = useState<Room[]>([])
   const categoryListRef = useRef<HTMLDivElement>(null)
-
-  const categoryTag = searchParams.get('category_tag') ?? categories[0]?.id
-
-  const navigate = useNavigate()
 
   function onRightClick() {
     if (!categoryListRef.current) return
@@ -37,35 +33,19 @@ export default function Component() {
     })
   }
 
-  useEffect(() => {
-    const getCategories = async () => {
-      setLoading(true)
-      try {
-        const categories = await fetchCategories()
-        setCategories(categories)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    getCategories()
-  }, [])
+  const categoriesQuery = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    initialData: [],
+  })
 
-  useEffect(() => {
-    const getRooms = async (categoryId: string) => {
-      setLoading(true)
-      try {
-        const rooms = await fetchRooms(categoryId)
-        setRooms(rooms)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    categoryTag && getRooms(categoryTag)
-  }, [categoryTag])
+  const categoryTag = searchParams.get('category_tag') ?? categoriesQuery.data[0]?.id
+
+  const roomsQuery = useQuery({
+    queryKey: ['rooms', categoryTag],
+    queryFn: ({ queryKey }) => fetchRooms(queryKey[1]),
+    initialData: []
+  })
 
 
   return (
@@ -78,7 +58,7 @@ export default function Component() {
           <ChevronLeft />
         </div>
         <div ref={categoryListRef} className="no-scrollbar flex w-4/5 gap-8 overflow-x-auto">
-          <CategoryList categories={categories} isLoading={isLoading} />
+          <CategoryList categories={categoriesQuery.data} isLoading={categoriesQuery.isFetching} />
         </div>
         <div
           onClick={onRightClick}
@@ -89,17 +69,15 @@ export default function Component() {
         <FilterModal />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
-        {rooms.map(room => (
-          <div
-            key={room.id}
-            onClick={() => {
-              navigate(`/rooms/${room.id}`)
-            }}
-          >
-            <RoomCard room={room} key={room.id} />
-          </div>
-        ))}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <RoomList rooms={roomsQuery.data} isLoading={roomsQuery.isFetching} />
+      </div>
+      <div className="mt-14 flex flex-col items-center">
+        <h2 className="text-xl font-bold"> Continue exploring campers </h2>
+        <Button size="lg" className="mt-4 bg-black hover:bg-black/90">
+          {' '}
+          Show More
+        </Button>
       </div>
     </>
   )
