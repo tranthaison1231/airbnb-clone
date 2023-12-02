@@ -1,5 +1,5 @@
 class CategoriesService {
-  static async getAll() {
+  static getAll() {
     return [
       {
         id: "1",

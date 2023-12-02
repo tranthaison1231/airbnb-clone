@@ -1,5 +1,5 @@
 class RoomsService {
-  static async getBy(categoryId: string) {
+  static getBy(categoryId: string) {
     if (categoryId === "1") {
       return [
         {
