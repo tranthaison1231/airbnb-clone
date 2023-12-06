@@ -1,13 +1,12 @@
 {
   "scripts": {
-    "start": "vercel dev",
+    "start": "vercel dev -y",
     "deploy": "vercel"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.9.0",
-    "hono": "^3.10.2"
+    "hono": "^3.11.2"
   },
   "devDependencies": {
-    "vercel": "^32.4.1"
+    "vercel": "^32.6.1"
   }
 }
