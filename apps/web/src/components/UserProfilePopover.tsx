@@ -1,6 +1,6 @@
 import { AlignJustify, User2 } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import LoginModal from './modals/LoginModal'
+import LoginModal from '../pages/(public)/_components/LoginModal'
 import { Link } from '@/router'
 import WinterReleaseModal from './modals/WinterReleaseModal'
 
