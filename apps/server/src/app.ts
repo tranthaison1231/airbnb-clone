@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { CategoriesService } from "./modules/categories.service";
-import { RoomsService } from "./modules/rooms.service";
+import { router as auth } from "./modules/auth/auth.controller";
+import { router as categories } from "./modules/categories/categories.controller";
+import { router as rooms } from "./modules/rooms/rooms.controller";
 
 const app = new Hono().basePath("/api");
 
@@ -15,36 +16,9 @@ app.use(
   })
 );
 
-app.post("/sign-up", async (c) => {
-  const { email, password } = await c.req.json();
-
-  if (!email || !password) {
-    return c.json(
-      { message: "Email and password are required", statusCode: 400 },
-      400
-    );
-  }
-
-  if (email !== "son.tran@enouvo.com" || password !== "enouvo12345") {
-    return c.json(
-      { message: "Invalid email or password", statusCode: 401 },
-      401
-    );
-  }
-
-  return c.json({ token: "124124124124124" });
-});
-
-app.get("/categories", (c) => {
-  const categories = CategoriesService.getAll();
-  return c.json(categories);
-});
-
-app.get("/categories/:categoryId/rooms", (c) => {
-  const categoryId = c.req.param("categoryId");
-  const rooms = RoomsService.getBy(categoryId);
-  return c.json(rooms);
-});
+app.route("/", auth);
+app.route("/categories", categories);
+app.route("/rooms", rooms);
 
 app.notFound((c) => {
   return c.json(

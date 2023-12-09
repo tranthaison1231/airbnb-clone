@@ -1,5 +1,5 @@
 export class RoomsService {
-  static getBy(categoryId: string) {
+  static getAllBy(categoryId: string) {
     if (categoryId === "1") {
       return [
         {
@@ -98,5 +98,18 @@ export class RoomsService {
         distance: "5164",
       },
     ];
+  }
+
+  static getBy(roomId: string) {
+    return {
+      images: [
+        "https://a0.muscache.com/im/pictures/c0b5943a-9c0c-449c-ab3b-cf148b8471c3.jpg?im_w=1200",
+        "https://a0.muscache.com/im/pictures/e40a3f76-fefd-4fbb-893c-e1e2b2c6c8ca.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/9df73161-3743-4cdb-bc98-864e408af6f0.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/788ec8d8-fdd2-4c45-b6ed-a8b44d98a8df.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/6713071b-519d-49ad-bc64-76db60d8de9d.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/6713071b-519d-49ad-bc64-76db60d8de9d.jpg?im_w=720",
+      ],
+    };
   }
 }
