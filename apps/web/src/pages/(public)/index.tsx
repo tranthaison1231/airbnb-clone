@@ -43,7 +43,7 @@ export default function Component() {
 
   const roomsQuery = useQuery({
     queryKey: ['rooms', categoryTag],
-    queryFn: ({ queryKey }) => fetchRooms(queryKey[1]),
+    queryFn: () => fetchRooms(categoryTag),
     initialData: []
   })
 

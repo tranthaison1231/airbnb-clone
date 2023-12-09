@@ -2,6 +2,8 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import LoginForm, { type LoginInputs } from './LoginForm'
 import { useState } from 'react'
 import UpdateProfileForm, { UpdateProfileInputs } from './UpdateProfileForm'
+import { signUp } from '@/apis/auth'
+import { toast } from 'sonner'
 
 export default function LoginModal() {
   const [credentials, setCredentials] = useState({
@@ -18,11 +20,20 @@ export default function LoginModal() {
     }))
   }
 
-  const onUpdateProfileSubmit = (data: UpdateProfileInputs) => {
-    console.log({
-      ...data,
-      ...credentials
-    })
+  const onUpdateProfileSubmit = async (data: UpdateProfileInputs) => {
+    try {
+      const res = await signUp({
+        ...data,
+        ...credentials
+      })
+      console.log(res.token)
+
+      toast.success('Login successfully!')
+    } catch (error) {
+      if(error instanceof Error) {
+        toast.error(error.message)
+      }
+    }
     
   }
 

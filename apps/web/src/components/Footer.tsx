@@ -10,35 +10,35 @@ const CATEGORIES = [
         type: 'Vacation rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena1',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena2',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena3',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena4',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena5',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena6',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena7',
         type: 'Apartment rentals'
       },
       {
-        name: 'Benalmádena',
+        name: 'Benalmádena8',
         type: 'Apartment rentals'
       }
     ]
@@ -106,7 +106,7 @@ export default function Footer() {
               {CATEGORIES.map(category => (
                 <TabsContent key={category.value} value={category.value} className="grid grid-cols-6 gap-x-2 gap-y-4">
                   {category.rooms.map(room => (
-                    <div>
+                    <div key={room.name}>
                       <p>{room.name}</p>
                       <p className="text-xs text-gray-500">{room.type}</p>
                     </div>
