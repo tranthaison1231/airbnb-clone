@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsc && tsc-alias",
     "deploy": "vercel",
     "postinstall": "prisma generate"
   },
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "prisma": "^5.7.0",
+    "tsc-alias": "^1.8.8",
     "tsx": "^4.6.2",
     "vercel": "^32.7.1"
   }
