@@ -8,12 +8,18 @@ dependencies:
   '@hono/node-server':
     specifier: ^1.3.3
     version: 1.3.3
+  '@hono/zod-validator':
+    specifier: ^0.1.11
+    version: 0.1.11(hono@3.11.6)(zod@3.22.4)
   '@prisma/client':
     specifier: 5.7.0
     version: 5.7.0(prisma@5.7.0)
   hono:
     specifier: ^3.11.6
     version: 3.11.6
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
   prisma:
@@ -281,6 +287,16 @@ packages:
   /@hono/node-server@1.3.3:
     resolution: {integrity: sha512-zD+TJvSBb5rqx5KSRlpoxNM3ESC8JU3pdecNZc2nK/TJSt88Ae/ko2nKnzYqX2IDegc+4hxLs8CW92B683C2VQ==}
     engines: {node: '>=18.14.1'}
+    dev: false
+
+  /@hono/zod-validator@0.1.11(hono@3.11.6)(zod@3.22.4):
+    resolution: {integrity: sha512-PQXeHUP0+36qpRt8yfeD7N2jbK3ETlGvSN6dMof/HwUC/APRokQRjpXZm4rrlG71Ft0aWE01+Bm4XejqPie5Uw==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
+    dependencies:
+      hono: 3.11.6
+      zod: 3.22.4
     dev: false
 
   /@jridgewell/resolve-uri@3.1.1:
@@ -2286,3 +2302,7 @@ packages:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
     engines: {node: '>=6'}
     dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
