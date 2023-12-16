@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import { router as auth } from "./modules/auth/auth.controller";
 import { router as categories } from "./modules/categories/categories.controller";
 import { router as rooms } from "./modules/rooms/rooms.controller";
+import { errorFilter } from "./lib/error-filter";
 
 const app = new Hono().basePath("/api");
 
@@ -14,7 +15,7 @@ app.use(
   cors({
     origin: ["http://localhost:5173"],
     credentials: true,
-  })
+  }),
 );
 
 app.route("/", auth);
@@ -27,9 +28,11 @@ app.notFound((c) => {
       message: "Not found",
       statusCode: 404,
     },
-    404
+    404,
   );
 });
+
+app.onError(errorFilter);
 
 serve(app, () => {
   console.log("Server is running on http://localhost:3000");

@@ -3,12 +3,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const data = await prisma.category.create({
-    data: {
-      name: "Beach",
-      icon: "https://a0.muscache.com/pictures/10ce1091-c854-40f3-a2fb-defc2995bcaf.jpg",
+  const data = await prisma.user.delete({
+    where: {
+      email: "son.tran@enouvo.com",
     },
   });
+
   console.log(data);
 }
 

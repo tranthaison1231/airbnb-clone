@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { signInDto, signUpDto } from "./dtos/auth.dto";
+import { AuthService } from "./auth.service";
 
 export const router = new Hono();
 
@@ -8,24 +9,14 @@ router
   .post("/sign-up", zValidator("json", signUpDto), async (c) => {
     const { email, password } = await c.req.json();
 
-    if (email !== "son.tran@enouvo.com" || password !== "enouvo12345") {
-      return c.json(
-        { message: "Invalid email or password", statusCode: 401 },
-        401,
-      );
-    }
+    await AuthService.signUp(email, password);
 
-    return c.json({ token: "124124124124124" });
+    return c.json({ message: "Sign up successfully!" });
   })
   .post("/sign-in", zValidator("json", signInDto), async (c) => {
     const { email, password } = await c.req.json();
 
-    if (email !== "son.tran@enouvo.com" || password !== "enouvo12345") {
-      return c.json(
-        { message: "Invalid email or password", statusCode: 401 },
-        401,
-      );
-    }
+    const token = await AuthService.signIn(email, password);
 
-    return c.json({ token: "124124124124124" });
+    return c.json({ token: token });
   });
