@@ -1,31 +1,77 @@
 import { Hono } from "hono";
 import { CategoriesService } from "./categories.service";
 import { RoomsService } from "../rooms/rooms.service";
+import { createRoomDto } from "./dtos/create-room.dto";
+import { zValidator } from "@hono/zod-validator";
 
 export const router = new Hono();
 
 router
   .get("/", async (c) => {
     const categories = await CategoriesService.getAll();
-    return c.json(categories);
+    return c.json({
+      data: categories,
+      status: 200,
+    });
   })
   .post("/", async (c) => {
     const data = await c.req.json();
     const category = await CategoriesService.create(data);
-    return c.json(category);
+    return c.json({
+      data: category,
+      status: 200,
+    });
   })
   .get("/:categoryId", async (c) => {
     const categoryId = c.req.param("categoryId");
     const category = await CategoriesService.getBy(categoryId);
-    return c.json(category);
+    return c.json({
+      data: category,
+      status: 200,
+    });
   })
   .delete("/:categoryId", async (c) => {
     const categoryId = c.req.param("categoryId");
     const category = await CategoriesService.delete(categoryId);
-    return c.json(category);
+    return c.json({
+      data: category,
+      status: 200,
+    });
   })
-  .get("/:categoryId/rooms", (c) => {
+  .get("/:categoryId/rooms", async (c) => {
     const categoryId = c.req.param("categoryId");
-    const rooms = RoomsService.getAllBy(categoryId);
-    return c.json(rooms);
+    const rooms = await RoomsService.getAllBy(categoryId);
+    return c.json({
+      data: rooms,
+      status: 200,
+    });
+  })
+  .post("/:categoryId/rooms", zValidator("json", createRoomDto), async (c) => {
+    const {
+      name,
+      price,
+      location,
+      startDate,
+      endDate,
+      rate,
+      description,
+      images,
+    } = await c.req.json();
+
+    const categoryId = c.req.param("categoryId");
+    const room = await RoomsService.create(categoryId, {
+      name,
+      price,
+      startDate,
+      endDate,
+      rate,
+      location,
+      description,
+      images,
+    });
+
+    return c.json({
+      data: room,
+      status: 200,
+    });
   });
