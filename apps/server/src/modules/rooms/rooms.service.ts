@@ -19,7 +19,8 @@ export class RoomsService {
 
   static async create(
     categoryId: string,
-    input: Prisma.RoomCreateWithoutCategoryInput,
+    userId: string,
+    input: Omit<Prisma.RoomCreateInput, "user" | "category">,
   ) {
     const createdRoom = await db.room.create({
       data: {
@@ -29,9 +30,34 @@ export class RoomsService {
             id: categoryId,
           },
         },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
 
     return createdRoom;
+  }
+
+  static async delete(roomId: string, userId: string) {
+    try {
+      const deletedRoom = await db.room.delete({
+        where: {
+          id: roomId,
+          userId: userId,
+        },
+      });
+
+      return deletedRoom;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new BadRequestException("Room not found");
+        }
+      }
+      throw error;
+    }
   }
 }

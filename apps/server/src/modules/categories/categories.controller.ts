@@ -3,6 +3,7 @@ import { CategoriesService } from "./categories.service";
 import { RoomsService } from "../rooms/rooms.service";
 import { createRoomDto } from "./dtos/create-room.dto";
 import { zValidator } from "@hono/zod-validator";
+import { auth } from "@/middlewares/auth";
 
 export const router = new Hono();
 
@@ -46,32 +47,38 @@ router
       status: 200,
     });
   })
-  .post("/:categoryId/rooms", zValidator("json", createRoomDto), async (c) => {
-    const {
-      name,
-      price,
-      location,
-      startDate,
-      endDate,
-      rate,
-      description,
-      images,
-    } = await c.req.json();
+  .post(
+    "/:categoryId/rooms",
+    auth,
+    zValidator("json", createRoomDto),
+    async (c) => {
+      const {
+        name,
+        price,
+        location,
+        startDate,
+        endDate,
+        rate,
+        description,
+        images,
+      } = await c.req.json();
+      const user = c.get("user");
 
-    const categoryId = c.req.param("categoryId");
-    const room = await RoomsService.create(categoryId, {
-      name,
-      price,
-      startDate,
-      endDate,
-      rate,
-      location,
-      description,
-      images,
-    });
+      const categoryId = c.req.param("categoryId");
+      const room = await RoomsService.create(categoryId, user.id, {
+        name,
+        price,
+        startDate,
+        endDate,
+        rate,
+        location,
+        description,
+        images,
+      });
 
-    return c.json({
-      data: room,
-      status: 200,
-    });
-  });
+      return c.json({
+        data: room,
+        status: 200,
+      });
+    },
+  );

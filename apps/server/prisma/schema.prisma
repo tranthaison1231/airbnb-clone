@@ -25,6 +25,7 @@ model User {
   fullName String?
   age      Int?
   password String
+  Room     Room[]
 
   @@map("users")
 }
@@ -41,7 +42,10 @@ model Room {
   description String
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([categoryId])
+  @@index([userId])
   @@map("rooms")
 }

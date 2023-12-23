@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Son Tran",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5"
+  }
 }
