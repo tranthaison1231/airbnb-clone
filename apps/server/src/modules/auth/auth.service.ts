@@ -30,11 +30,9 @@ export class AuthService {
         password: hashedPassword,
       },
     });
-
-    return "12341245";
   }
 
-  static async createToken(user: User) {
+  static createToken(user: User) {
     return jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: ACCESS_TOKEN_EXPIRE_IN,
     });
@@ -57,10 +55,34 @@ export class AuthService {
   static async forgotPassword(email: string) {
     const user = await UsersService.getByWithError(email);
 
+    const accessToken = AuthService.createToken(user);
+
     await mailService.sendMail({
       to: user.email,
       subject: "Reset password",
-      html: "<h1 style='color:red'> Hello world </h1>",
+      html: `<a href='https://airbnb-clone-nu-rouge.vercel.app/reset-password?token=${accessToken}'> Reset password </a>`,
+    });
+  }
+
+  static async resetPassword(user: User, newPassword: string) {
+    const isMatch = await bcrypt.compare(newPassword, user.password);
+
+    if (isMatch) {
+      throw new UnauthorizedException(
+        "New password must be different from old password",
+      );
+    }
+
+    const salt = bcrypt.genSaltSync();
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    return db.user.update({
+      where: {
+        email: user.email,
+      },
+      data: {
+        password: hashedNewPassword,
+      },
     });
   }
 }
