@@ -23,11 +23,12 @@ export default function Component() {
     resolver: zodResolver(resetPasswordSchema)
   })
 
-  const onSubmit = async (data: ResetPasswordInputs) => {
+  const onSubmit = async (form: ResetPasswordInputs) => {
     try {
       const token = searchParams.get('token')
       if (!token) return toast.error('Token is required')
-      await resetPassword(token, data.password)
+      const data = await resetPassword(token, form.password)
+      console.log(data)
     } catch (error) {
       toast.error('Reset password failed')
     }
