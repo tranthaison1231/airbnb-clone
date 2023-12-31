@@ -5,10 +5,15 @@ import { resetPasswordSchema } from '@/utils/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { resetPassword } from '@/apis/auth'
 
 export type ResetPasswordInputs = z.infer<typeof resetPasswordSchema>
 
 export default function Component() {
+  const [searchParams] = useSearchParams()
+
   const {
     register,
     handleSubmit,
@@ -18,8 +23,14 @@ export default function Component() {
     resolver: zodResolver(resetPasswordSchema)
   })
 
-  const onSubmit = (data: ResetPasswordInputs) => {
-    console.log(data)
+  const onSubmit = async (data: ResetPasswordInputs) => {
+    try {
+      const token = searchParams.get('token')
+      if (!token) return toast.error('Token is required')
+      await resetPassword(token, data.password)
+    } catch (error) {
+      toast.error('Reset password failed')
+    }
   }
 
   return (
