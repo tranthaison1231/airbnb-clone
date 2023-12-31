@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { signInDto, signUpDto } from "./dtos/auth.dto";
+import { forgotPasswordDto, signInDto, signUpDto } from "./dtos/auth.dto";
 import { AuthService } from "./auth.service";
 
 export const router = new Hono();
@@ -19,4 +19,17 @@ router
     const accessToken = await AuthService.signIn(email, password);
 
     return c.json({ accessToken: accessToken });
-  });
+  })
+  .post(
+    "/forgot-password",
+    zValidator("json", forgotPasswordDto),
+    async (c) => {
+      const { email } = await c.req.json();
+      await AuthService.forgotPassword(email);
+
+      return c.json({
+        message: "Forgot password successfully! Please check your email",
+        status: 200,
+      });
+    },
+  );
