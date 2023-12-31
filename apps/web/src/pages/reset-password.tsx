@@ -28,9 +28,9 @@ export default function Component() {
       const token = searchParams.get('token')
       if (!token) return toast.error('Token is required')
       const data = await resetPassword(token, form.password)
-      console.log(data)
-    } catch (error) {
-      toast.error('Reset password failed')
+      toast.success(data.message)
+    } catch (error: any) {
+      toast.error(error.response.data.message)
     }
   }
 

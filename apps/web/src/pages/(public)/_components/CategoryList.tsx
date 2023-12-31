@@ -13,16 +13,16 @@ export default function CategoryList({ categories, isLoading }: Props) {
   const [searchParams] = useSearchParams()
   const categoryTag = searchParams.get('category_tag')
 
-  if(isLoading) {
+  if (isLoading) {
     return new Array(20).fill(0).map(() => (
-      <div className="h-13 min-w-[4rem] flex items-center flex-col">
-        <Skeleton className="w-6 h-6"/>
-        <Skeleton className="my-2 w-full h-2"/>
+      <div className="h-13 flex min-w-[4rem] flex-col items-center">
+        <Skeleton className="h-6 w-6" />
+        <Skeleton className="my-2 h-2 w-full" />
       </div>
     ))
   }
 
-  return categories.map(category => (
+  return categories?.map(category => (
     <Link
       to={`/?category_tag=${category.id}`}
       key={category.id}

@@ -1,3 +1,5 @@
+import { request } from '@/utils/request'
+
 interface SignUp {
   email: string
   password: string
@@ -13,13 +15,14 @@ export const signUp = async ({ email, password }: SignUp) => {
 }
 
 export const resetPassword = async (token: string, password: string) => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/reset-password`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({ password })
-  })
-  const data = await res.json()
-  return data
+  const res = await request.post(
+    '/reset-password',
+    { password },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  )
+  return res.data
 }
