@@ -20,12 +20,15 @@ model Category {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
+  id       String   @id @default(cuid())
+  email    String   @unique
   fullName String?
   age      Int?
+  avatar   String?
+  phone    String?
   password String
   Room     Room[]
+  Review   Review[]
 
   @@map("users")
 }
@@ -44,8 +47,25 @@ model Room {
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Review      Review[]
 
   @@index([categoryId])
   @@index([userId])
   @@map("rooms")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  comment   String
+  rate      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([roomId])
+  @@map("reviews")
 }

@@ -22,7 +22,7 @@ export default function CategoryList({ categories, isLoading }: Props) {
     ))
   }
 
-  return categories?.map(category => (
+  return categories.map(category => (
     <Link
       to={`/?category_tag=${category.id}`}
       key={category.id}
