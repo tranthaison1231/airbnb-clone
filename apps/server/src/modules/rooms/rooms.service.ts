@@ -9,7 +9,7 @@ export class RoomsService {
   }
 
   static async getBy(roomId: string) {
-    const room = await db.room.findMany({
+    const room = await db.room.findFirst({
       where: {
         id: roomId,
       },

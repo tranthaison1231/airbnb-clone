@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { BadRequestException } from "@/lib/exceptions";
 import { Prisma } from "@prisma/client";
 
 export class ReviewsService {
@@ -42,5 +43,46 @@ export class ReviewsService {
       },
     });
     return review;
+  }
+
+  static async deleteBy(reviewId: string, userId: string) {
+    try {
+      return await db.review.delete({
+        where: {
+          id: reviewId,
+          userId: userId,
+        },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new BadRequestException("Review not found");
+        }
+      }
+      throw error;
+    }
+  }
+
+  static async updateBy(
+    reviewId: string,
+    userId: string,
+    updateReviewDto: Prisma.ReviewUpdateInput,
+  ) {
+    try {
+      return await db.review.update({
+        where: {
+          id: reviewId,
+          userId: userId,
+        },
+        data: updateReviewDto,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new BadRequestException("Review not found");
+        }
+      }
+      throw error;
+    }
   }
 }

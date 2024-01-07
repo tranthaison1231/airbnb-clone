@@ -4,6 +4,7 @@ import { auth } from "@/middlewares/auth";
 import { zValidator } from "@hono/zod-validator";
 import { createReviewDto } from "./dtos/create-review.dto";
 import { ReviewsService } from "../reviews/reviews.service";
+import { BadRequestException } from "@/lib/exceptions";
 
 export const router = new Hono();
 
@@ -11,7 +12,15 @@ router
   .get("/:roomId", async (c) => {
     const roomId = c.req.param("roomId");
     const room = await RoomsService.getBy(roomId);
-    return c.json(room);
+
+    if (!room) {
+      throw new BadRequestException("Room not found");
+    }
+
+    return c.json({
+      status: 200,
+      data: room,
+    });
   })
   .delete("/:roomId", auth, async (c) => {
     const roomId = c.req.param("roomId");
@@ -19,6 +28,7 @@ router
     await RoomsService.delete(roomId, user.id);
     return c.json({
       message: "Room deleted successfully",
+      status: 200,
     });
   })
   .post(
