@@ -5,13 +5,25 @@ interface SignUp {
   password: string
 }
 
-export const signUp = async ({ email, password }: SignUp) => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/sign-up`, {
-    method: 'POST',
-    body: JSON.stringify({ email, password })
+export const signIn = async ({ email, password }: SignUp) => {
+  const res = await request.post('/sign-in', {
+    email,
+    password
   })
-  const data = await res.json()
-  return data
+  return res.data
+}
+
+export const signUp = async ({ email, password }: SignUp) => {
+  const res = await request.post('/sign-up', {
+    email,
+    password
+  })
+  return res.data
+}
+
+export const getMe = async () => {
+  const res = await request.get('/users/me')
+  return res.data
 }
 
 export const resetPassword = async (token: string, password: string) => {
