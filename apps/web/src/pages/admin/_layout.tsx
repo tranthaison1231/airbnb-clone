@@ -19,7 +19,7 @@ export default function Component() {
       <Header onToggle={onToggle} isOpen={isOpen} />
       <div className="flex h-[calc(100vh-48px)]">
         <Sidebar isOpen={isOpen} />
-        <div className="p-10">
+        <div className="w-full p-10">
           <Outlet />
         </div>
       </div>

@@ -1,8 +1,6 @@
 import { fetchCategories } from '@/apis/categories'
 import { fetchRooms } from '@/apis/rooms'
-import {
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -36,7 +34,7 @@ export default function Component() {
   const categoriesQuery = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories,
-    initialData: [],
+    initialData: []
   })
 
   const categoryTag = searchParams.get('category_tag') ?? categoriesQuery.data[0]?.id
@@ -46,7 +44,6 @@ export default function Component() {
     queryFn: () => fetchRooms(categoryTag),
     initialData: []
   })
-
 
   return (
     <>
