@@ -6,5 +6,5 @@ export default function UserProfile() {
     queryKey: ['me'],
     queryFn: getMe
   })
-  return <div>{meQuery.data?.fullName}</div>
+  return <div>{meQuery?.data?.fullName}</div>
 }

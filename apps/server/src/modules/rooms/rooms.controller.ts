@@ -9,6 +9,16 @@ import { BadRequestException } from "@/lib/exceptions";
 export const router = new Hono();
 
 router
+  .get("/", auth, async (c) => {
+    const user = c.get("user");
+    const rooms = await RoomsService.getAllBy({
+      userId: user.id,
+    });
+    return c.json({
+      status: 200,
+      data: rooms,
+    });
+  })
   .get("/:roomId", async (c) => {
     const roomId = c.req.param("roomId");
     const room = await RoomsService.getBy(roomId);

@@ -3,8 +3,14 @@ import { BadRequestException } from "@/lib/exceptions";
 import { Prisma } from "@prisma/client";
 
 export class RoomsService {
-  static async getAllBy(categoryId: string) {
-    const rooms = await db.room.findMany({ where: { categoryId } });
+  static async getAllBy({
+    userId,
+    categoryId,
+  }: {
+    userId?: string;
+    categoryId?: string;
+  }) {
+    const rooms = await db.room.findMany({ where: { categoryId, userId } });
     return rooms;
   }
 

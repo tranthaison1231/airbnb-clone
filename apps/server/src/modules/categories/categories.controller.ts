@@ -41,7 +41,7 @@ router
   })
   .get("/:categoryId/rooms", async (c) => {
     const categoryId = c.req.param("categoryId");
-    const rooms = await RoomsService.getAllBy(categoryId);
+    const rooms = await RoomsService.getAllBy({ categoryId });
     return c.json({
       data: rooms,
       status: 200,
