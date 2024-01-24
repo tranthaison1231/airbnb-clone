@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getToken } from './token'
+import { getToken, removeToken } from './token'
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
@@ -18,6 +18,19 @@ request.interceptors.request.use(
     return config
   },
   error => {
+    return Promise.reject(error)
+  }
+)
+
+request.interceptors.response.use(
+  response => {
+    return response
+  },
+  error => {
+    if (error.response.status === 401) {
+      removeToken()
+      window.location.href = '/'
+    }
     return Promise.reject(error)
   }
 )

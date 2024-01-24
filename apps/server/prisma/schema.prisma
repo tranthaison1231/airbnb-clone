@@ -40,7 +40,7 @@ model Room {
   location    String
   startDate   DateTime
   endDate     DateTime
-  rate        Float
+  rate        Float @default(0)
   images      String[]
   description String
   categoryId  String

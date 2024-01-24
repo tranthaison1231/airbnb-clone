@@ -1,4 +1,5 @@
 import { request } from '@/utils/request'
+import { createRoomSchema } from '@/utils/schema'
 import { z } from 'zod'
 
 export const roomSchema = z.object({
@@ -26,5 +27,17 @@ export const fetchRooms = async (categoryId: string) => {
 
 export const fetchRoom = async (roomId: string) => {
   const res = await request.get(`/rooms/${roomId}`)
+  return roomSchema.parse(res.data.data)
+}
+
+export type CreateRoomInputs = z.infer<typeof createRoomSchema>
+
+export const createRoom = async (data: CreateRoomInputs) => {
+  const res = await request.post('/categories/clqt6uvbo0000grxvj216i9ka/rooms', {
+    ...data,
+    startDate: new Date(),
+    endDate: new Date(),
+    images: []
+  })
   return roomSchema.parse(res.data.data)
 }

@@ -1,15 +1,32 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createRoomSchema } from '@/utils/schema'
+import { CreateRoomInputs, createRoom } from '@/apis/rooms'
+import { toast } from 'sonner'
 
 export default function AddRoomModal() {
-  const { register, handleSubmit } = useForm({
-    mode: 'onBlur'
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<CreateRoomInputs>({
+    mode: 'onBlur',
+    resolver: zodResolver(createRoomSchema)
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async (data: CreateRoomInputs) => {
+    try {
+      await createRoom(data)
+      toast.success('Create room successfully!')
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      }
+    }
   }
 
   return (
@@ -21,8 +38,14 @@ export default function AddRoomModal() {
         <h2 className="text-center font-bold"> Create Room</h2>
         <hr />
         <form className="space-y-4 p-6" onSubmit={handleSubmit(onSubmit)}>
-          <Input {...register('email')} placeholder="Email" type="email" />
-          <Input {...register('password')} placeholder="Password" type="password" />
+          <Input {...register('name')} placeholder="Name" />
+          {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+          <Input {...register('price')} placeholder="Price" type="number" />
+          {errors.price && <p className="text-sm text-red-500">{errors.price.message}</p>}
+          <Input {...register('location')} placeholder="Location" />
+          {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
+          <Textarea {...register('description')} placeholder="Description" />
+          {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
           <Button className="w-full" size="lg" type="submit">
             Save
           </Button>

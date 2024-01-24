@@ -32,3 +32,10 @@ export const updateProfileSchema = z.object({
     .pipe(z.string().min(1, { message: 'Last name is required' })),
   dob: z.string().min(1, { message: 'Date of birth is required' })
 })
+
+export const createRoomSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  price: z.coerce.number().min(1, { message: 'Price is required' }),
+  location: z.string().min(1, { message: 'Location is required' }),
+  description: z.string().min(1, { message: 'Description is required' })
+})
