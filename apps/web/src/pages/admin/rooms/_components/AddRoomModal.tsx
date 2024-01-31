@@ -7,8 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createRoomSchema } from '@/utils/schema'
 import { CreateRoomInputs, createRoom } from '@/apis/rooms'
 import { toast } from 'sonner'
+import { useState } from 'react'
 
 export default function AddRoomModal() {
+  const [open, setOpen] = useState(false)
   const {
     register,
     handleSubmit,
@@ -22,6 +24,7 @@ export default function AddRoomModal() {
     try {
       await createRoom(data)
       toast.success('Create room successfully!')
+      setOpen(false)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -30,8 +33,8 @@ export default function AddRoomModal() {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild onClick={() => setOpen(true)}>
         <Button> Create </Button>
       </DialogTrigger>
       <DialogContent className="px-0 sm:max-w-[600px]">

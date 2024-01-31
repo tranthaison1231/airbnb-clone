@@ -21,6 +21,13 @@ export const signUp = async ({ email, password }: SignUp) => {
   return res.data
 }
 
+export const forgotPassword = async ({ email }: { email: string }) => {
+  const res = await request.post('/forgot-password', {
+    email
+  })
+  return res.data
+}
+
 export const getMe = async () => {
   const res = await request.get('/users/me')
   return res.data

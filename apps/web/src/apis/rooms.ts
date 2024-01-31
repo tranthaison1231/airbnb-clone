@@ -37,7 +37,8 @@ export const createRoom = async (data: CreateRoomInputs) => {
     ...data,
     startDate: new Date(),
     endDate: new Date(),
-    images: []
+    images: [],
+    rate: 0
   })
   return roomSchema.parse(res.data.data)
 }

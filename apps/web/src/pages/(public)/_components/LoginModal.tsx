@@ -1,10 +1,16 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import LoginForm, { type LoginInputs } from './LoginForm'
 import { toast } from 'sonner'
-import { signIn } from '@/apis/auth'
+import { forgotPassword, signIn } from '@/apis/auth'
 import { setToken } from '@/utils/token'
+import { useState } from 'react'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
+import ForgotPasswordForm, { type ForgotPasswordInputs } from './ForgotPasswordForm'
+import { AxiosError } from 'axios'
 
 export default function LoginModal() {
+  const [tab, setTab] = useState<'login' | 'forgot-password'>('login')
+
   const onLoginSubmit = async (data: LoginInputs) => {
     try {
       const res = await signIn(data)
@@ -12,19 +18,43 @@ export default function LoginModal() {
 
       toast.success('Login successfully!')
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
       }
     }
   }
 
+  const onForgotPassword = async (data: ForgotPasswordInputs) => {
+    try {
+      await forgotPassword(data)
+      toast.success("We've sent you an email to reset your password.")
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
+      }
+    }
+  }
+
+  const onOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      setTab('login')
+    }
+  }
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <div className="my-2 w-full cursor-pointer p-3  text-muted-foreground hover:bg-gray-100">Login</div>
       </DialogTrigger>
       <DialogContent className="px-0 sm:max-w-[600px]">
-        <LoginForm onSubmit={onLoginSubmit} />
+        <Tabs value={tab}>
+          <TabsContent value="login">
+            <LoginForm onSubmit={onLoginSubmit} onForgotPasswordClick={() => setTab('forgot-password')} />
+          </TabsContent>
+          <TabsContent value="forgot-password">
+            <ForgotPasswordForm onSubmit={onForgotPassword} />
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   )

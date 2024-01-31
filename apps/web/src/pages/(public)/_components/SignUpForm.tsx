@@ -31,6 +31,7 @@ export default function SignUpForm({ onSubmit }: Props) {
         {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
         <Input {...register('password')} placeholder="Password" type="password" />
         {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+        <p> Forgot Password </p>
         <p className="text-sm text-muted-foreground">
           We’ll call or text you to confirm your number. Standard message and data rates apply.{' '}
           <span className="text-foreground underline">Privacy Policy </span>
