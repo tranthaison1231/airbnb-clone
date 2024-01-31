@@ -10,9 +10,10 @@ export type LoginInputs = z.infer<typeof loginSchema>
 interface Props {
   onSubmit: SubmitHandler<LoginInputs>
   onForgotPasswordClick: () => void
+  isLoading?: boolean
 }
 
-export default function LoginForm({ onSubmit, onForgotPasswordClick }: Props) {
+export default function LoginForm({ onSubmit, isLoading, onForgotPasswordClick }: Props) {
   const {
     register,
     handleSubmit,
@@ -39,7 +40,7 @@ export default function LoginForm({ onSubmit, onForgotPasswordClick }: Props) {
           We’ll call or text you to confirm your number. Standard message and data rates apply.{' '}
           <span className="text-foreground underline">Privacy Policy </span>
         </p>
-        <Button className="w-full" size="lg" type="submit">
+        <Button className="w-full" size="lg" type="submit" loading={isLoading}>
           Continue
         </Button>
       </form>

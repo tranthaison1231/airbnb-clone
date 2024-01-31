@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { resetPassword } from '@/apis/auth'
+import { AxiosError } from 'axios'
 
 export type ResetPasswordInputs = z.infer<typeof resetPasswordSchema>
 
@@ -29,8 +30,10 @@ export default function Component() {
       if (!token) return toast.error('Token is required')
       const data = await resetPassword(token, form.password)
       toast.success(data.message)
-    } catch (error: any) {
-      toast.error(error.response.data.message)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
+      }
     }
   }
 
