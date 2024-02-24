@@ -42,3 +42,7 @@ export const createRoom = async (data: CreateRoomInputs) => {
   })
   return roomSchema.parse(res.data.data)
 }
+
+export const deleteRoom = async (roomId: string) => {
+  return request.delete(`/rooms/${roomId}`)
+}

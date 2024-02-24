@@ -10,7 +10,7 @@ router
   .get("/me", auth, async (c) => {
     const user = c.get("user");
 
-    delete user.password;
+    delete user.password
 
     return c.json({
       data: user,

@@ -8,8 +8,11 @@ import { createRoomSchema } from '@/utils/schema'
 import { CreateRoomInputs, createRoom } from '@/apis/rooms'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function AddRoomModal() {
+  const queryClient = useQueryClient()
+  const [isLoading, setIsLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const {
     register,
@@ -22,13 +25,19 @@ export default function AddRoomModal() {
 
   const onSubmit = async (data: CreateRoomInputs) => {
     try {
+      setIsLoading(true)
       await createRoom(data)
+      queryClient.invalidateQueries({
+        queryKey: ['rooms']
+      })
       toast.success('Create room successfully!')
       setOpen(false)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -49,7 +58,7 @@ export default function AddRoomModal() {
           {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
           <Textarea {...register('description')} placeholder="Description" />
           {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
-          <Button className="w-full" size="lg" type="submit">
+          <Button loading={isLoading} className="w-full" size="lg" type="submit">
             Save
           </Button>
         </form>
